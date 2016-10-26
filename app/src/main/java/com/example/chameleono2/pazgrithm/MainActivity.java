@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -47,6 +48,48 @@ public class MainActivity extends AppCompatActivity {
                 fields[i][j]=new ImageView(this);
             }
         }
+        //spiner_settings
+        for(int i=0;i<spinnerid.length ;i++){
+            spinners[i] = (Spinner) findViewById(spinnerid[i]);
+        }
+        for(int i=0;i<A_spinnerid.length ;i++){
+            A_spinners[i] = (Spinner) findViewById(A_spinnerid[i]);
+        }
+        for(int i=0;i<B_spinnerid.length ;i++){
+            B_spinners[i] = (Spinner) findViewById(B_spinnerid[i]);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> A_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lista_data);
+        A_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> B_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listb_data);
+        B_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> time_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, times_data);
+        time_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for(int j = 0; j < spinnerid.length; j++) {
+            spinners[j].setAdapter(adapter);
+            spinners[j].setMinimumHeight(100);
+        }
+
+        A_spinners[0].setAdapter(time_adapter);
+        A_spinners[0].setMinimumHeight(102);
+        for(int j = 1; j < A_spinnerid.length; j++) {
+            A_spinners[j].setAdapter(A_adapter);
+            A_spinners[j].setMinimumHeight(102);
+        }
+
+        B_spinners[0].setAdapter(time_adapter);
+        B_spinners[0].setMinimumHeight(120);
+        for(int j = 1; j < B_spinnerid.length; j++) {
+            B_spinners[j].setAdapter(B_adapter);
+            B_spinners[j].setMinimumHeight(120);
+        }
+
+        //imagsettings
         for(int i=0;i<7;i++) {
             for (int j = 0; j < 7; j++) {
 
@@ -60,8 +103,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //playerimg.setImageResource(R.drawable.character);
-        //GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
+        playerimg.setImageResource(R.drawable.character);
+        GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
+        playerlotate.setxy(lmrg+fscales*3,tmrg+fscales*6);
+        playerimg.setLayoutParams(GameFieldParamg);
+        GameFieldParamg.leftMargin=playerlotate.player_x;
+        GameFieldParamg.topMargin=playerlotate.player_y;
+        playerimg.setLayoutParams(GameFieldParamg);
+        GameField.addView(playerimg);
 
     }
 }
