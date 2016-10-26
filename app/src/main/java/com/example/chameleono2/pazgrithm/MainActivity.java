@@ -2,14 +2,26 @@ package com.example.chameleono2.pazgrithm;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.view.InputDeviceCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected Spinner[] A_spinners = new Spinner[A_spinnerid.length];
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
 
-    Playerlotate playerlotate=new Playerlotate();
+    public Playerlotate playerlotate=new Playerlotate();
+
 
 
 
@@ -39,10 +52,46 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         RelativeLayout GameField =(RelativeLayout)this.findViewById(R.id.Gamelayout);
         RelativeLayout.LayoutParams GameFieldParamg;
-        ImageView playerimg = new ImageView(this);
+        final ImageView playerimg = new ImageView(this);
         ImageView[][] fields;
+
+        TextView testext = (TextView)this.findViewById(R.id.test_text);
         fields=new ImageView[fieldlength][fieldlength];
         int[][] fielddatas=new int[fieldlength+2][fieldlength+2];
+        int[] testf =new int[82];
+        Button startbutton =(Button)findViewById(R.id.button_s);
+        Resources res =this.getResources();
+        InputStream is =null;
+        BufferedReader br =null;
+        StringBuilder sb = new StringBuilder();
+        String testhoge;
+        try{
+            try {
+                is = res.openRawResource(R.raw.stage);
+                br = new BufferedReader(new InputStreamReader(is));
+                int str;
+                int i=0,j=0;
+                while((str = br.read()) != -1){
+                    sb.append(str +"\n");
+                    if(str>=48){
+                        fielddatas[i++][j]=str-48;
+                        if(i>8){
+                            j++;i=0;
+                        }
+                    }
+
+                }
+            } finally {
+                if (br !=null) br.close();
+            }
+
+        } catch (IOException e) {
+            Toast.makeText(this, "読み込み失敗", Toast.LENGTH_SHORT).show();
+        }
+        testhoge= String.valueOf(fielddatas[1][1]);
+        testext.setText(testhoge);
+
+
         for(int i=0;i<7;i++){
             for(int j=0;j<7;j++){
                 fields[i][j]=new ImageView(this);
@@ -93,8 +142,11 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<7;i++) {
             for (int j = 0; j < 7; j++) {
 
-                fields[i][j].setImageResource(R.drawable.truemap);//
-
+                if(fielddatas[j+1][i+1]==1){
+                    fields[i][j].setImageResource(R.drawable.falsemap);
+                }else {
+                    fields[i][j].setImageResource(R.drawable.truemap);//
+                }
                 GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
                 GameFieldParamg.leftMargin = lmrg + fscales * j;
                 GameFieldParamg.topMargin = tmrg + fscales * i;
@@ -111,6 +163,36 @@ public class MainActivity extends AppCompatActivity {
         GameFieldParamg.topMargin=playerlotate.player_y;
         playerimg.setLayoutParams(GameFieldParamg);
         GameField.addView(playerimg);
+
+        //buttonsettings
+        startbutton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String tmp;
+                tmp=(String)A_spinners[0].getSelectedItem();
+
+                for(int i=0;i<spinnerid.length;i++) {
+                    if(spinners[i].getSelectedItem() ==list_data[1]){
+                        playerimg.layout(playerlotate.player_x,playerlotate.player_y-fscales,playerlotate.player_x+playerimg.getWidth(),playerlotate.player_y-fscales+playerimg.getHeight());
+                    }else if(spinners[i].getSelectedItem() ==list_data[2]){
+
+                    }else if(spinners[i].getSelectedItem() ==list_data[3]){
+
+                    }else if(spinners[i].getSelectedItem() ==list_data[4]){
+                        //
+                        for(int l= 1;l<=Integer.parseInt(tmp);l++) {
+
+                        }
+                    }else if(spinners[i].getSelectedItem() ==list_data[5]){
+
+                    }else {
+
+                    }
+                }
+
+            }
+        });
+
 
     }
 }
