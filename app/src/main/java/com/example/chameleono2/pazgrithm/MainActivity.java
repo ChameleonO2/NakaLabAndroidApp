@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             } finally {
                 if (br !=null) br.close();
             }
-
         } catch (IOException e) {
             Toast.makeText(this, "読み込み失敗", Toast.LENGTH_SHORT).show();
         }
@@ -173,8 +172,22 @@ public class MainActivity extends AppCompatActivity {
 
                 for(int i=0;i<spinnerid.length;i++) {
                     if(spinners[i].getSelectedItem() ==list_data[1]){
-                        playerimg.layout(playerlotate.player_x,playerlotate.player_y-fscales,playerlotate.player_x+playerimg.getWidth(),playerlotate.player_y-fscales+playerimg.getHeight());
+                        if((playerlotate.player_Rotate/90)%4==0) {
+                            playerimg.layout(playerlotate.player_x, playerlotate.player_y - fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y - fscales + playerimg.getHeight());
+                            playerlotate.addxy(0, -fscales);
+                            playerimg.invalidate();
+                        }else if((playerlotate.player_Rotate/90)%4==1){
+
+                            playerimg.layout(playerlotate.player_x+fscales, playerlotate.player_y , fscales+playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
+                            playerlotate.addxy(0, -fscales);
+                            playerimg.invalidate();
+                            playerlotate.setr(90);
+                            playerimg.setRotation(playerlotate.player_Rotate);
+                        }
+
                     }else if(spinners[i].getSelectedItem() ==list_data[2]){
+                        playerlotate.addr(90);
+                        playerimg.setRotation(playerlotate.player_Rotate);
 
                     }else if(spinners[i].getSelectedItem() ==list_data[3]){
 
