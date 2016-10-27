@@ -8,6 +8,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.view.InputDeviceCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -176,20 +177,34 @@ public class MainActivity extends AppCompatActivity {
                             playerimg.layout(playerlotate.player_x, playerlotate.player_y - fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y - fscales + playerimg.getHeight());
                             playerlotate.addxy(0, -fscales);
                             playerimg.invalidate();
+
+                            Log.d("前状態",String.valueOf(playerlotate.player_Rotate));
                         }else if((playerlotate.player_Rotate/90)%4==1){
 
                             playerimg.layout(playerlotate.player_x+fscales, playerlotate.player_y , fscales+playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
-                            playerlotate.addxy(0, -fscales);
+                            playerlotate.addxy(fscales, 0);
                             playerimg.invalidate();
-                            playerlotate.setr(90);
-                            playerimg.setRotation(playerlotate.player_Rotate);
+                            tmp=String.valueOf(playerlotate.player_Rotate);
+                            Log.d("右状態",String.valueOf(playerlotate.player_Rotate));
+                        }else if((playerlotate.player_Rotate/90)%4==2){
+                            playerimg.layout(playerlotate.player_x, playerlotate.player_y + fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + fscales + playerimg.getHeight());
+                            playerlotate.addxy(0, fscales);
+                            playerimg.invalidate();
+                        }else if((playerlotate.player_Rotate/90)%4==3){
+                            playerimg.layout(playerlotate.player_x-fscales, playerlotate.player_y , playerlotate.player_x - fscales+ playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
+                            playerlotate.addxy(-fscales, 0);
+                            playerimg.invalidate();
                         }
 
                     }else if(spinners[i].getSelectedItem() ==list_data[2]){
                         playerlotate.addr(90);
                         playerimg.setRotation(playerlotate.player_Rotate);
 
+                        tmp=String.valueOf(playerlotate.player_Rotate);
+                        Log.d("右向く状態",String.valueOf(playerlotate.player_Rotate));
                     }else if(spinners[i].getSelectedItem() ==list_data[3]){
+                        playerlotate.addr(-90);
+                        playerimg.setRotation(playerlotate.player_Rotate);
 
                     }else if(spinners[i].getSelectedItem() ==list_data[4]){
                         //
