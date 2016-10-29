@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
 
     public Playerlotate playerlotate=new Playerlotate();
+    int i=0;
 
 
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         fields=new ImageView[fieldlength][fieldlength];
         int[][] fielddatas=new int[fieldlength+2][fieldlength+2];
         int[] testf =new int[82];
-        Button startbutton =(Button)findViewById(R.id.button_s);
+        final Button startbutton =(Button)findViewById(R.id.button_s);
         Resources res =this.getResources();
         InputStream is =null;
         BufferedReader br =null;
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 String tmp;
                 tmp=(String)A_spinners[0].getSelectedItem();
 
-                for(int i=0;i<spinnerid.length;i++) {
+
                     if(spinners[i].getSelectedItem() ==list_data[1]){
                         if((playerlotate.player_Rotate/90)%4==0) {
                             playerimg.layout(playerlotate.player_x, playerlotate.player_y - fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y - fscales + playerimg.getHeight());
@@ -216,7 +217,14 @@ public class MainActivity extends AppCompatActivity {
                     }else {
 
                     }
+                if(i<spinnerid.length-1) {
+                    i++;
+                    startbutton.setText(String.valueOf(spinnerid.length-i));
+                }else {
+                    startbutton.setText(String.valueOf(spinnerid.length-i));
+                    i=0;
                 }
+
 
             }
         });
