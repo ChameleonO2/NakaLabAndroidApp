@@ -3,6 +3,7 @@ package com.example.chameleono2.pazgrithm;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.view.InputDeviceCompat;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
 
     public Playerlotate playerlotate=new Playerlotate();
-
+    ImageView playerimg;
+    String tmp;
 
 
 
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         RelativeLayout GameField =(RelativeLayout)this.findViewById(R.id.Gamelayout);
         RelativeLayout.LayoutParams GameFieldParamg;
-        final ImageView playerimg = new ImageView(this);
+        playerimg = new ImageView(this);
         ImageView[][] fields;
 
         TextView testext = (TextView)this.findViewById(R.id.test_text);
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader br =null;
         StringBuilder sb = new StringBuilder();
         String testhoge;
+
+
         try{
             try {
                 is = res.openRawResource(R.raw.stage);
@@ -168,13 +174,17 @@ public class MainActivity extends AppCompatActivity {
         startbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String tmp;
-                tmp=(String)A_spinners[0].getSelectedItem();
 
+                tmp=(String)A_spinners[0].getSelectedItem();
+                handler.postDelayed(animations, 100);
+
+                /*
                 for(int i=0;i<spinnerid.length;i++) {
                     if(spinners[i].getSelectedItem() ==list_data[1]){
                         if((playerlotate.player_Rotate/90)%4==0) {
-                            playerimg.layout(playerlotate.player_x, playerlotate.player_y - fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y - fscales + playerimg.getHeight());
+                            playerimg.layout(playerlotate.player_x, playerlotate.player_y, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y  + playerimg.getHeight());
+                            ftranslate.setDuration(1000);
+                            playerimg.setAnimation(ftranslate);
                             playerlotate.addxy(0, -fscales);
                             playerimg.invalidate();
 
@@ -216,14 +226,73 @@ public class MainActivity extends AppCompatActivity {
                     }else {
 
                     }
-                }
+                }*/
 
             }
         });
 
 
     }
-}
+    public final Handler handler = new Handler();
+    public final Runnable animations =new Runnable() {
+        @Override
+        public void run() {
+            RotateAnimation Rrotate = new RotateAnimation(playerlotate.player_Rotate, playerlotate.player_Rotate+90, playerimg.getWidth()/2, playerimg.getHeight()/2);
+            RotateAnimation Lrotate = new RotateAnimation(playerlotate.player_Rotate, playerlotate.player_Rotate-90, playerimg.getWidth()/2, playerimg.getHeight()/2);
+            TranslateAnimation ftranslate = new TranslateAnimation(playerlotate.player_x,playerlotate.player_x,playerlotate.player_y, playerlotate.player_y-fscales);
+            for(int i=0;i<spinnerid.length;i++) {
+                if(spinners[i].getSelectedItem() ==list_data[1]){
+                    if((playerlotate.player_Rotate/90)%4==0) {
+                        playerimg.layout(playerlotate.player_x, playerlotate.player_y, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y  + playerimg.getHeight());
+                        ftranslate.setDuration(1000);
+                        playerimg.setAnimation(ftranslate);
+                        //playerlotate.addxy(0, -fscales);
+                        playerimg.invalidate();
+
+                        Log.d("前状態",String.valueOf(playerlotate.player_Rotate));
+                    }else if((playerlotate.player_Rotate/90)%4==1){
+
+                        playerimg.layout(playerlotate.player_x+fscales, playerlotate.player_y , fscales+playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
+                        playerlotate.addxy(fscales, 0);
+                        playerimg.invalidate();
+                        tmp=String.valueOf(playerlotate.player_Rotate);
+                        Log.d("右状態",String.valueOf(playerlotate.player_Rotate));
+                    }else if((playerlotate.player_Rotate/90)%4==2){
+                        playerimg.layout(playerlotate.player_x, playerlotate.player_y + fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + fscales + playerimg.getHeight());
+                        playerlotate.addxy(0, fscales);
+                        playerimg.invalidate();
+                    }else if((playerlotate.player_Rotate/90)%4==3){
+                        playerimg.layout(playerlotate.player_x-fscales, playerlotate.player_y , playerlotate.player_x - fscales+ playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
+                        playerlotate.addxy(-fscales, 0);
+                        playerimg.invalidate();
+                    }
+
+                }else if(spinners[i].getSelectedItem() ==list_data[2]){
+                    playerlotate.addr(90);
+                    playerimg.setRotation(playerlotate.player_Rotate);
+
+                    tmp=String.valueOf(playerlotate.player_Rotate);
+                    Log.d("右向く状態",String.valueOf(playerlotate.player_Rotate));
+                }else if(spinners[i].getSelectedItem() ==list_data[3]){
+                    playerlotate.addr(-90);
+                    playerimg.setRotation(playerlotate.player_Rotate);
+
+                }else if(spinners[i].getSelectedItem() ==list_data[4]){
+                    //
+                    for(int l= 1;l<=Integer.parseInt(tmp);l++) {
+
+                    }
+                }else if(spinners[i].getSelectedItem() ==list_data[5]){
+
+                }else {
+
+                }
+            }
+
+        }
+        };
+    }
+//}
 class Playerlotate{
     public int player_x,player_y,player_Rotate=0;
     Playerlotate(){
