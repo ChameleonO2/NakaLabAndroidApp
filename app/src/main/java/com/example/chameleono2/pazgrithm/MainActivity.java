@@ -30,7 +30,7 @@ import java.io.InputStreamReader;
 
 
 public class MainActivity extends AppCompatActivity {
-	public static final int fieldlength = 7,fscales=110,lmrg=0,tmrg=200,movetime=300,waittime=600;
+	public static final int fieldlength = 7,fscales=110,lmrg=0,tmrg=200,movetime=300,waittime=400;
 
 	//Spinner's selectlist and player's location
 	protected static final String[] list_data = {"なにもしない","↑まえにすすむ", "→みぎをむく", "←ひだりをむく", "Aにうつる","Bにうつる"};
@@ -213,59 +213,109 @@ public class MainActivity extends AppCompatActivity {
 
 			if(!endflag) {
 				//    Log.d("cnt", String.valueOf(cnt));
-				if(aflag==0) {
-					Log.d("MainLoopIn", "this is Mainloop!");
-					Log.d("MainCnt", String.valueOf(cnt));
-					if (spinners[cnt].getSelectedItem() == list_data[1]) {  //move process
-						Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
 
-						if ((playerimg.getRotation() / 90) % 4 == 0) {
-							playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
-						} else if ((playerimg.getRotation() / 90) % 4 == 1 || (playerimg.getRotation() / 90) % 4 == -3) {
-							playerimg.animate().x(playerimg.getX() + fscales).setDuration(movetime);
-						} else if ((playerimg.getRotation() / 90) % 4 == 2 || (playerimg.getRotation() / 90) % 4 == -2) {
-							playerimg.animate().y(playerimg.getY() + fscales).setDuration(movetime);
-						} else if ((playerimg.getRotation() / 90) % 4 == 3 || (playerimg.getRotation() / 90) % 4 == -1) {
-							playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
+
+				if(bflag==0) {
+					if (aflag == 0) {
+						Log.d("MainLoopIn", "this is Mainloop!");
+						Log.d("MainCnt", String.valueOf(cnt));
+						if (spinners[cnt].getSelectedItem() == list_data[1]) {  //move process
+							Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
+
+							if ((playerimg.getRotation() / 90) % 4 == 0) {
+								playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
+							} else if ((playerimg.getRotation() / 90) % 4 == 1 || (playerimg.getRotation() / 90) % 4 == -3) {
+								playerimg.animate().x(playerimg.getX() + fscales).setDuration(movetime);
+							} else if ((playerimg.getRotation() / 90) % 4 == 2 || (playerimg.getRotation() / 90) % 4 == -2) {
+								playerimg.animate().y(playerimg.getY() + fscales).setDuration(movetime);
+							} else if ((playerimg.getRotation() / 90) % 4 == 3 || (playerimg.getRotation() / 90) % 4 == -1) {
+								playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
+							}
+						} else if (spinners[cnt].getSelectedItem() == list_data[2]) {//Right process
+
+							playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
+							Log.d("Right", String.valueOf(playerimg.getRotation()));
+
+						} else if (spinners[cnt].getSelectedItem() == list_data[3]) {//Left process
+
+							playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
+							Log.d("Left", String.valueOf(playerimg.getRotation()));
+
+						} else if (spinners[cnt].getSelectedItem() == list_data[4]) {//go to A process
+							aflag = Integer.parseInt((String) A_spinners[0].getSelectedItem());
+						} else if (spinners[cnt].getSelectedItem() == list_data[5]) {//go to B process
+							bflag = Integer.parseInt((String) B_spinners[0].getSelectedItem());
 						}
-					} else if (spinners[cnt].getSelectedItem() == list_data[2]) {//Right process
 
-						playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
-						Log.d("Right", String.valueOf(playerimg.getRotation()));
-
-					} else if (spinners[cnt].getSelectedItem() == list_data[3]) {//Left process
-
-						playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
-						Log.d("Left", String.valueOf(playerimg.getRotation()));
-
-					} else if (spinners[cnt].getSelectedItem() == list_data[4]) {//go to A process
-						aflag = Integer.parseInt((String) A_spinners[0].getSelectedItem());
-					} else if (spinners[cnt].getSelectedItem() == list_data[5]) {//go to B process
-
-					}
-
-					if (cnt < spinnerid.length - 1) {
-						while (spinners[cnt + 1].getSelectedItem() == list_data[0] && cnt < spinnerid.length - 2) {
-							cnt++;
-							//Log.d("whilecnt", String.valueOf(cnt));
+						if (cnt < spinnerid.length - 1) {
+							while (spinners[cnt + 1].getSelectedItem() == list_data[0] && cnt < spinnerid.length - 2) {
+								cnt++;
+								//Log.d("whilecnt", String.valueOf(cnt));
+							}
 						}
-					}
 
-					if (++cnt < spinnerid.length) {
-						handler.postDelayed(animations, waittime);
-					} else {
-						if (!endflag) {
-							Log.d("end", String.valueOf(cnt));
-							endflag = true;
+						if (++cnt < spinnerid.length) {
 							handler.postDelayed(animations, waittime);
+						} else {
+							if (!endflag) {
+								Log.d("end", String.valueOf(cnt));
+								endflag = true;
+								handler.postDelayed(animations, waittime);
+							}
 						}
-					}
-                    //Main Process END
-				}else if(aflag>0){
-					Log.d("this is Aloop!", String.valueOf(aflag));
-					Log.d("this is Acnt!", String.valueOf(acnt));
+						//Main Process END
+					} else if (aflag > 0) {
+						Log.d("this is Aloop!", String.valueOf(aflag));
+						Log.d("this is Acnt!", String.valueOf(acnt));
 
-					if (A_spinners[acnt].getSelectedItem() == lista_data[1]) {  //move process
+						if (A_spinners[acnt].getSelectedItem() == lista_data[1]) {  //move process
+							Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
+
+							if ((playerimg.getRotation() / 90) % 4 == 0) {
+								playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
+							} else if ((playerimg.getRotation() / 90) % 4 == 1 || (playerimg.getRotation() / 90) % 4 == -3) {
+								playerimg.animate().x(playerimg.getX() + fscales).setDuration(movetime);
+							} else if ((playerimg.getRotation() / 90) % 4 == 2 || (playerimg.getRotation() / 90) % 4 == -2) {
+								playerimg.animate().y(playerimg.getY() + fscales).setDuration(movetime);
+							} else if ((playerimg.getRotation() / 90) % 4 == 3 || (playerimg.getRotation() / 90) % 4 == -1) {
+								playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
+							}
+						} else if (A_spinners[acnt].getSelectedItem() == lista_data[2]) {//Right process
+
+							playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
+							Log.d("Right", String.valueOf(playerimg.getRotation()));
+
+						} else if (A_spinners[acnt].getSelectedItem() == lista_data[3]) {//Left process
+
+							playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
+							Log.d("Left", String.valueOf(playerimg.getRotation()));
+
+						} else if (A_spinners[acnt].getSelectedItem() == lista_data[4]) {//go to B process
+							bflag = Integer.parseInt((String) B_spinners[0].getSelectedItem());
+						}
+						if (acnt < A_spinnerid.length - 1) {
+							while (A_spinners[acnt + 1].getSelectedItem() == lista_data[0] && acnt < A_spinnerid.length - 2) {
+								acnt++;
+								//Log.d("whilecnt", String.valueOf(acnt));
+							}
+						}
+						if (++acnt < A_spinners.length) {
+							Log.d("ALoopcnt", String.valueOf(acnt));
+							handler.postDelayed(animations, waittime);
+						} else {
+							aflag--;
+							acnt = 1;
+							Log.d("ALoopEed!", String.valueOf(aflag));
+							handler.postDelayed(animations, 0);
+						}
+
+
+					}//A_loop_End
+				}else if(bflag>0){//b_loop_End
+					Log.d("this is Bloop!", String.valueOf(bflag));
+					Log.d("this is Bcnt!", String.valueOf(bcnt));
+
+					if (B_spinners[bcnt].getSelectedItem() == listb_data[1]) {  //move process
 						Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
 
 						if ((playerimg.getRotation() / 90) % 4 == 0) {
@@ -277,36 +327,36 @@ public class MainActivity extends AppCompatActivity {
 						} else if ((playerimg.getRotation() / 90) % 4 == 3 || (playerimg.getRotation() / 90) % 4 == -1) {
 							playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
 						}
-					} else if (A_spinners[acnt].getSelectedItem() == lista_data[2]) {//Right process
+					} else if (B_spinners[bcnt].getSelectedItem() == listb_data[2]) {//Right process
 
 						playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
 						Log.d("Right", String.valueOf(playerimg.getRotation()));
 
-					} else if (A_spinners[acnt].getSelectedItem() == lista_data[3]) {//Left process
+					} else if (B_spinners[bcnt].getSelectedItem() == listb_data[3]) {//Left process
 
 						playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
 						Log.d("Left", String.valueOf(playerimg.getRotation()));
 
-					} else if (A_spinners[acnt].getSelectedItem() == lista_data[4]) {//go to B process
-						bflag = Integer.parseInt((String) B_spinners[0].getSelectedItem());
 					}
-					if (acnt < A_spinnerid.length - 1) {
-						while (A_spinners[acnt + 1].getSelectedItem() == lista_data[0] && acnt < A_spinnerid.length - 2) {
-							acnt++;
+					if (bcnt < B_spinnerid.length - 1) {
+						while (B_spinners[bcnt + 1].getSelectedItem() == listb_data[0] && bcnt < B_spinnerid.length - 2) {
+							bcnt++;
 							//Log.d("whilecnt", String.valueOf(acnt));
 						}
 					}
-					if(++acnt<A_spinners.length) {
-						Log.d("ALoopcnt", String.valueOf(acnt));
+					if (++bcnt < B_spinners.length) {
+						Log.d("BLoopcnt", String.valueOf(bcnt));
 						handler.postDelayed(animations, waittime);
-					}else{
-						aflag--;acnt=1;
-						Log.d("ALoopEed!", String.valueOf(aflag));
-						handler.postDelayed(animations, waittime);
+					} else {
+						bflag--;
+						bcnt = 1;
+						Log.d("BLoopEed!", String.valueOf(bflag));
+						handler.postDelayed(animations, 0);
 					}
+				}//B_Loop_End
 
 
-				}//A_loop_End
+
 
 				/*
 				if (++cnt < spinnerid.length) {
