@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         GameFieldParamg.topMargin=playerlotate.player_y;
         playerimg.setLayoutParams(GameFieldParamg);
         GameField.addView(playerimg);
-
+//
         goolimg.setImageResource(R.drawable.gool);
         GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
         goolimg.setLayoutParams(GameFieldParamg);
