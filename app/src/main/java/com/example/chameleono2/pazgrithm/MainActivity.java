@@ -29,7 +29,7 @@ import java.io.InputStreamReader;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final int fieldlength = 7,fscales=110,lmrg=0,tmrg=200;
+    public static final int fieldlength = 7,fscales=110,lmrg=0,tmrg=200,movetime=300,waittime=600;
 
     //Spinner's selectlist and player's location
     protected static final String[] list_data = {"なにもしない","↑まえにすすむ", "→みぎをむく", "←ひだりをむく", "Aにうつる","Bにうつる"};
@@ -39,15 +39,18 @@ public class MainActivity extends AppCompatActivity {
     protected static final int[] spinnerid = {R.id.command1,R.id.command2,R.id.command3,R.id.command4,R.id.command5,R.id.command6,R.id.command7,R.id.command8,R.id.command9,R.id.command10,R.id.command11,R.id.command12};
     protected static final int [] A_spinnerid = {R.id.A_times,R.id.Acommand1,R.id.Acommand2,R.id.Acommand3,R.id.Acommand4,R.id.Acommand5,R.id.Acommand6,R.id.Acommand7,R.id.Acommand8,R.id.Acommand9};
     protected static final int [] B_spinnerid = {R.id.B_times,R.id.Bcommand1,R.id.Bcommand2,R.id.Bcommand3,R.id.Bcommand4,R.id.Bcommand5,R.id.Bcommand6,R.id.Bcommand7,R.id.Bcommand8,R.id.Bcommand9};
+    protected static final int [] stageid ={R.raw.stage};
     protected Spinner[] spinners = new Spinner[spinnerid.length];
     protected Spinner[] A_spinners = new Spinner[A_spinnerid.length];
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
 
     public Playerlotate playerlotate=new Playerlotate();
-    ImageView playerimg;
+    public Playerlotate gool = new Playerlotate();
+
+    ImageView playerimg,goolimg;
     String tmp;
     int cnt=0,acnt=0,bcnt=0,afla=0,bflag=0;
-    boolean endflag=false;
+    boolean endflag=false,runflag=false;
 
 
 
@@ -61,11 +64,12 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout GameField =(RelativeLayout)this.findViewById(R.id.Gamelayout);
         RelativeLayout.LayoutParams GameFieldParamg;
         playerimg = new ImageView(this);
+        goolimg   = new ImageView(this);
         ImageView[][] fields;
 
         final TextView testext = (TextView)this.findViewById(R.id.test_text);
         fields=new ImageView[fieldlength][fieldlength];
-        int[][] fielddatas=new int[fieldlength+2][fieldlength+2];
+        final int[][] fielddatas=new int[fieldlength+2][fieldlength+2];
         int[] testf =new int[82];
         Button startbutton =(Button)findViewById(R.id.button_s);
         Resources res =this.getResources();
@@ -148,43 +152,57 @@ public class MainActivity extends AppCompatActivity {
             B_spinners[j].setMinimumHeight(120);
         }
 
-        //imagsettings
+        //image settings
         for(int i=0;i<7;i++) {
             for (int j = 0; j < 7; j++) {
 
                 if(fielddatas[j+1][i+1]==1){
-                    fields[i][j].setImageResource(R.drawable.falsemap);
+                    fields[i][j].setImageResource(R.drawable.falsemap2);
                 }else {
-                    fields[i][j].setImageResource(R.drawable.truemap);//
+                    fields[i][j].setImageResource(R.drawable.truemap2);//
                 }
                 GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
                 GameFieldParamg.leftMargin = lmrg + fscales * j;
                 GameFieldParamg.topMargin = tmrg + fscales * i;
+                if(fielddatas[j+1][i+1]==2) {
+                    playerlotate.setxy(lmrg + fscales * (j), tmrg + fscales * (i));
+                }else if(fielddatas[j+1][i+1]==3) {
+                    gool.setxy(lmrg + fscales * (j), tmrg + fscales * (i));
+                }
                 fields[i][j].setLayoutParams(GameFieldParamg);
                 GameField.addView(fields[i][j]);
             }
         }
 
-        playerimg.setImageResource(R.drawable.character);
+        playerimg.setImageResource(R.drawable.character2);
         GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
-        playerlotate.setxy(lmrg+fscales*3,tmrg+fscales*6);
         playerimg.setLayoutParams(GameFieldParamg);
         GameFieldParamg.leftMargin=playerlotate.player_x;
         GameFieldParamg.topMargin=playerlotate.player_y;
         playerimg.setLayoutParams(GameFieldParamg);
         GameField.addView(playerimg);
 
+        goolimg.setImageResource(R.drawable.gool);
+        GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
+        goolimg.setLayoutParams(GameFieldParamg);
+        GameFieldParamg.leftMargin=gool.player_x;
+        GameFieldParamg.topMargin=gool.player_y;
+        goolimg.setLayoutParams(GameFieldParamg);
+        GameField.addView(goolimg);
+
         //buttonsettings
         startbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                tmp=(String)A_spinners[0].getSelectedItem();
+              // tmp=(String)A_spinners[0].getSelectedItem();
 
-                        Log.d("hoge","piyo");
-                        Log.d("length",String.valueOf(spinnerid.length));
-                        handler.postDelayed(animations, 0);
-
+                if(!runflag) {
+                    runflag=true;
+                    Log.d("hoge", "piyo");
+                    Log.d("length", String.valueOf(spinnerid.length));
+                    handler.postDelayed(animations, 0);
+                }
             }
         });
 
@@ -201,22 +219,22 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("goF", String.valueOf(playerimg.getRotation()/90));
 
                     if ((playerimg.getRotation() / 90) % 4 == 0) {
-                        playerimg.animate().y(playerimg.getY() - fscales).setDuration(500);
+                        playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
                     } else if ((playerimg.getRotation() / 90) % 4 == 1||(playerimg.getRotation() / 90) % 4 == -3) {
-                        playerimg.animate().x(playerimg.getX() + fscales).setDuration(500);
+                        playerimg.animate().x(playerimg.getX() + fscales).setDuration(movetime);
                     } else if ((playerimg.getRotation() / 90) % 4 == 2||(playerimg.getRotation() / 90) % 4 == -2) {
-                        playerimg.animate().y(playerimg.getY() + fscales).setDuration(500);
+                        playerimg.animate().y(playerimg.getY() + fscales).setDuration(movetime);
                     } else if ((playerimg.getRotation() / 90) % 4 == 3||(playerimg.getRotation() / 90) % 4 == -1) {
-                        playerimg.animate().x(playerimg.getX() - fscales).setDuration(500);
+                        playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
                     }
                 } else if (spinners[cnt].getSelectedItem() == list_data[2]) {//Right process
 
-                    playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(500);
+                    playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
                     Log.d("Right", String.valueOf(playerimg.getRotation()));
 
                 } else if (spinners[cnt].getSelectedItem() == list_data[3]) {//Left process
 
-                    playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(500);
+                    playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
                     Log.d("Left", String.valueOf(playerimg.getRotation()));
 
                 } else if (spinners[cnt].getSelectedItem() == list_data[4]) {//go to A process
@@ -232,18 +250,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if(++cnt<spinnerid.length){
-                    handler.postDelayed(animations, 1000);
+                    handler.postDelayed(animations, waittime);
                 }else{
                     if(!endflag){
                         Log.d("end", String.valueOf(cnt));
                         endflag=true;
-                        handler.postDelayed(animations, 1000);
+                        handler.postDelayed(animations, waittime);
                     }
                 }
 
             }else{
                 playerimg.animate().x(playerlotate.player_x).y(playerlotate.player_y).rotation(0).setDuration(50);
-                endflag=false;
+                endflag=false;runflag=false;
                 cnt =0;
             }
 
