@@ -183,61 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.d("hoge","piyo");
                         Log.d("length",String.valueOf(spinnerid.length));
-
                         handler.postDelayed(animations, 0);
-
-
-
-
-                /*
-                for(int i=0;i<spinnerid.length;i++) {
-                    if(spinners[i].getSelectedItem() ==list_data[1]){
-                        if((playerlotate.player_Rotate/90)%4==0) {
-                            playerimg.layout(playerlotate.player_x, playerlotate.player_y, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y  + playerimg.getHeight());
-                            ftranslate.setDuration(1000);
-                            playerimg.setAnimation(ftranslate);
-                            playerlotate.addxy(0, -fscales);
-                            playerimg.invalidate();
-
-                            Log.d("前状態",String.valueOf(playerlotate.player_Rotate));
-                        }else if((playerlotate.player_Rotate/90)%4==1){
-
-                            playerimg.layout(playerlotate.player_x+fscales, playerlotate.player_y , fscales+playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
-                            playerlotate.addxy(fscales, 0);
-                            playerimg.invalidate();
-                            tmp=String.valueOf(playerlotate.player_Rotate);
-                            Log.d("右状態",String.valueOf(playerlotate.player_Rotate));
-                        }else if((playerlotate.player_Rotate/90)%4==2){
-                            playerimg.layout(playerlotate.player_x, playerlotate.player_y + fscales, playerlotate.player_x + playerimg.getWidth(), playerlotate.player_y + fscales + playerimg.getHeight());
-                            playerlotate.addxy(0, fscales);
-                            playerimg.invalidate();
-                        }else if((playerlotate.player_Rotate/90)%4==3){
-                            playerimg.layout(playerlotate.player_x-fscales, playerlotate.player_y , playerlotate.player_x - fscales+ playerimg.getWidth(), playerlotate.player_y + playerimg.getHeight());
-                            playerlotate.addxy(-fscales, 0);
-                            playerimg.invalidate();
-                        }
-
-                    }else if(spinners[i].getSelectedItem() ==list_data[2]){
-                        playerlotate.addr(90);
-                        playerimg.setRotation(playerlotate.player_Rotate);
-
-                        tmp=String.valueOf(playerlotate.player_Rotate);
-                        Log.d("右向く状態",String.valueOf(playerlotate.player_Rotate));
-                    }else if(spinners[i].getSelectedItem() ==list_data[3]){
-                        playerlotate.addr(-90);
-                        playerimg.setRotation(playerlotate.player_Rotate);
-
-                    }else if(spinners[i].getSelectedItem() ==list_data[4]){
-                        //
-                        for(int l= 1;l<=Integer.parseInt(tmp);l++) {
-
-                        }
-                    }else if(spinners[i].getSelectedItem() ==list_data[5]){
-
-                    }else {
-
-                    }
-                }*/
 
             }
         });
@@ -248,28 +194,30 @@ public class MainActivity extends AppCompatActivity {
     public final Runnable animations =new Runnable() {
         @Override
         public void run() {
-            Log.d("hoge","hoge");
-
+           // Log.d("hoge","hoge");
             if(!endflag) {
-                Log.d("cnt", String.valueOf(cnt));
+            //    Log.d("cnt", String.valueOf(cnt));
                 if (spinners[cnt].getSelectedItem() == list_data[1]) {  //move process
-                    Log.d("goF", String.valueOf(cnt));
+                    Log.d("goF", String.valueOf(playerimg.getRotation()/90));
+
                     if ((playerimg.getRotation() / 90) % 4 == 0) {
                         playerimg.animate().y(playerimg.getY() - fscales).setDuration(500);
-                    } else if ((playerimg.getRotation() / 90) % 4 == 1) {
+                    } else if ((playerimg.getRotation() / 90) % 4 == 1||(playerimg.getRotation() / 90) % 4 == -3) {
                         playerimg.animate().x(playerimg.getX() + fscales).setDuration(500);
-                    } else if ((playerimg.getRotation() / 90) % 4 == 2) {
-                        playerimg.animate().y(playerimg.getY() - fscales).setDuration(500);
-                    } else if ((playerimg.getRotation() / 90) % 4 == 3) {
+                    } else if ((playerimg.getRotation() / 90) % 4 == 2||(playerimg.getRotation() / 90) % 4 == -2) {
+                        playerimg.animate().y(playerimg.getY() + fscales).setDuration(500);
+                    } else if ((playerimg.getRotation() / 90) % 4 == 3||(playerimg.getRotation() / 90) % 4 == -1) {
                         playerimg.animate().x(playerimg.getX() - fscales).setDuration(500);
                     }
                 } else if (spinners[cnt].getSelectedItem() == list_data[2]) {//Right process
 
                     playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(500);
+                    Log.d("Right", String.valueOf(playerimg.getRotation()));
 
                 } else if (spinners[cnt].getSelectedItem() == list_data[3]) {//Left process
 
                     playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(500);
+                    Log.d("Left", String.valueOf(playerimg.getRotation()));
 
                 } else if (spinners[cnt].getSelectedItem() == list_data[4]) {//go to A process
 
@@ -278,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (cnt < spinnerid.length - 1) {
-                    while (spinners[cnt + 1].getSelectedItem() == list_data[0] && cnt < spinnerid.length - 1) {
+                    while (spinners[cnt + 1].getSelectedItem() == list_data[0] && cnt < spinnerid.length - 2) {
                         cnt++;
                         Log.d("whilecnt", String.valueOf(cnt));
                     }
