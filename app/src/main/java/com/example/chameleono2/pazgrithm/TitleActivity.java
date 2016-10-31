@@ -21,6 +21,7 @@ public class TitleActivity extends AppCompatActivity{
         bgm = MediaPlayer.create(getApplicationContext(), R.raw.iti);
         bgm.setLooping(true);
         bgm.start();
+        setTitle("Puzgorithm");
 
         ImageButton imageButton  = (ImageButton) findViewById(R.id.imageButton);
         ImageButton imageButton2 = (ImageButton) findViewById(R.id.imageButton2);
