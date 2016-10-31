@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 		BufferedReader br =null;
 		StringBuilder sb = new StringBuilder();
 		String testhoge;
+
+
+		setTitle("Puzgorithm");
+		startbutton.setText("スタート");
 		//read stage file
 		try{
 			try {
