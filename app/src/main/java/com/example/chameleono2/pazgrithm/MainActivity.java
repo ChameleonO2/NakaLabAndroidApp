@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 			 Log.d("run","------------------");
 			if(decision()==1){
 				endflag=true;
+				Toast.makeText(getBaseContext(), "あれれ？おかしいよ？？？",Toast.LENGTH_SHORT).show();
 				Log.d("OUT!","OUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUT");
 			}
 			Log.d("run","------------------");
@@ -397,16 +398,26 @@ public class MainActivity extends AppCompatActivity {
 
 			}else{
 				Log.d("Endstatus","----------------------");
-				/////////////////decision();
+				if(decision()==3){
+					Toast.makeText(getBaseContext(), "ごーる！　おめでとう",Toast.LENGTH_SHORT).show();
+				}
 				playerimg.animate().x(playerlotate.player_x).y(playerlotate.player_y).rotation(0).setDuration(50);
 				endflag=false;runflag=false;
-				cnt =0;
+				cnt =0;acnt=1;bcnt=1;
 				Log.d("End","----------------------------");
 			}
 
 
 		}
 	};
+	/*
+	public final Runnable gameclear = new Runnable() {
+		@Override
+		public void run() {
+
+		}
+	};*/
+
 	private int decision(){
 		int decix = (int)((playerimg.getX()-lmrg)/fscales)+1;
 		int deciy = (int)((playerimg.getY()-tmrg)/fscales)+1;
@@ -414,6 +425,8 @@ public class MainActivity extends AppCompatActivity {
 		Log.d(String.valueOf(decix),String.valueOf(deciy));
 		return fielddatas[decix][deciy];
 	}
+
+
 }
 //}
 class Playerlotate{
