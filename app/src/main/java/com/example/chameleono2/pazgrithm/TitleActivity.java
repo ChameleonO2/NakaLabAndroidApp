@@ -30,7 +30,7 @@ public class TitleActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 bgm.release();
-               Intent intent = new Intent(getApplication(), MainActivity.class);
+               Intent intent = new Intent(getApplication(), StageSelectActivity.class);
                 startActivity(intent);
             }
         });

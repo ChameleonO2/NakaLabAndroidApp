@@ -1,6 +1,7 @@
 package com.example.chameleono2.pazgrithm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.media.Image;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 	protected static final int[] spinnerid = {R.id.command1,R.id.command2,R.id.command3,R.id.command4,R.id.command5,R.id.command6,R.id.command7,R.id.command8,R.id.command9,R.id.command10,R.id.command11,R.id.command12};
 	protected static final int [] A_spinnerid = {R.id.A_times,R.id.Acommand1,R.id.Acommand2,R.id.Acommand3,R.id.Acommand4,R.id.Acommand5,R.id.Acommand6,R.id.Acommand7,R.id.Acommand8,R.id.Acommand9};
 	protected static final int [] B_spinnerid = {R.id.B_times,R.id.Bcommand1,R.id.Bcommand2,R.id.Bcommand3,R.id.Bcommand4,R.id.Bcommand5,R.id.Bcommand6,R.id.Bcommand7,R.id.Bcommand8,R.id.Bcommand9};
-	protected static final int [] stageid ={R.raw.stage};
+	protected static final int [] stageid ={R.raw.stage,R.raw.stage1,R.raw.stage2};
 	protected Spinner[] spinners = new Spinner[spinnerid.length];
 	protected Spinner[] A_spinners = new Spinner[A_spinnerid.length];
 	protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
@@ -50,12 +51,15 @@ public class MainActivity extends AppCompatActivity {
 	public Playerlotate playerlotate=new Playerlotate();
 	public Playerlotate gool = new Playerlotate();
 	int[][] fielddatas;
+	int getdata=0;
 
 
 	ImageView playerimg,goolimg;
 	String tmp;
 	int cnt=0,acnt=1,bcnt=1,aflag=0,bflag=0;
 	boolean endflag=false,runflag=false;
+
+
 
 
 
@@ -83,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
 		StringBuilder sb = new StringBuilder();
 		String testhoge;
 
+		Intent intent=getIntent();
+		getdata=intent.getIntExtra("STAGEDATA",0);
+		Toast.makeText(getBaseContext(),String.valueOf(getdata),Toast.LENGTH_SHORT).show();
+
 
 		setTitle("Puzgorithm");
 		startbutton.setText("スタート");
@@ -90,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 		//
 		try{
 			try {
-				is = res.openRawResource(R.raw.stage);
+				is = res.openRawResource(stageid[getdata]);
 				br = new BufferedReader(new InputStreamReader(is));
 				int str;
 				int i=0,j=0;
