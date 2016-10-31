@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 		setTitle("Puzgorithm");
 		startbutton.setText("スタート");
 		//read stage file
+		//
 		try{
 			try {
 				is = res.openRawResource(R.raw.stage);
