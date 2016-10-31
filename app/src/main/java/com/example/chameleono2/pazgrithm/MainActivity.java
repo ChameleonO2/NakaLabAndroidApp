@@ -3,7 +3,9 @@ package com.example.chameleono2.pazgrithm;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.media.Image;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.view.InputDeviceCompat;
@@ -47,12 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
 	public Playerlotate playerlotate=new Playerlotate();
 	public Playerlotate gool = new Playerlotate();
+	int[][] fielddatas;
 
 
 	ImageView playerimg,goolimg;
 	String tmp;
 	int cnt=0,acnt=1,bcnt=1,aflag=0,bflag=0;
 	boolean endflag=false,runflag=false;
+
+
+
 	//
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
 		final TextView testext = (TextView)this.findViewById(R.id.test_text);
 		fields=new ImageView[fieldlength][fieldlength];
-		final int[][] fielddatas=new int[fieldlength+2][fieldlength+2];
+		//final int[][] fielddatas=new int[fieldlength+2][fieldlength+2];
+		fielddatas=new int[fieldlength+2][fieldlength+2];
 		//int[] testf =new int[82];
 		Button startbutton =(Button)findViewById(R.id.button_s);
 		Resources res =this.getResources();
@@ -162,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 				GameFieldParamg.topMargin = tmrg + fscales * i;
 				if(fielddatas[j+1][i+1]==2) {
 					playerlotate.setxy(lmrg + fscales * (j), tmrg + fscales * (i));
+					Log.d(String.valueOf(j+1),String.valueOf(i+1));
 				}else if(fielddatas[j+1][i+1]==3) {
 					gool.setxy(lmrg + fscales * (j), tmrg + fscales * (i));
 				}
@@ -169,14 +177,7 @@ public class MainActivity extends AppCompatActivity {
 				GameField.addView(fields[i][j]);
 			}
 		}
-		//Load playerimage and set
-		playerimg.setImageResource(R.drawable.character2);
-		GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
-		playerimg.setLayoutParams(GameFieldParamg);
-		GameFieldParamg.leftMargin=playerlotate.player_x;
-		GameFieldParamg.topMargin=playerlotate.player_y;
-		playerimg.setLayoutParams(GameFieldParamg);
-		GameField.addView(playerimg);
+
 
 		//Load goolimg ant set
 		goolimg.setImageResource(R.drawable.gool);
@@ -187,6 +188,17 @@ public class MainActivity extends AppCompatActivity {
 		goolimg.setLayoutParams(GameFieldParamg);
 		GameField.addView(goolimg);
 
+		//Load playerimage and set
+		playerimg.setImageResource(R.drawable.character2);
+		GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
+		playerimg.setLayoutParams(GameFieldParamg);
+		GameFieldParamg.leftMargin=playerlotate.player_x;
+		GameFieldParamg.topMargin=playerlotate.player_y;
+		playerimg.setLayoutParams(GameFieldParamg);
+		GameField.addView(playerimg);
+
+
+
 		//buttonsettings
 		startbutton.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -196,8 +208,8 @@ public class MainActivity extends AppCompatActivity {
 
 				if(!runflag) {
 					runflag=true;
-					Log.d("hoge", "piyo");
-					Log.d("length", String.valueOf(spinnerid.length));
+					Log.d("Start", "----------------------------");
+					//Log.d("length", String.valueOf(spinnerid.length));
 					handler.postDelayed(animations, 0);
 				}
 			}
@@ -209,7 +221,12 @@ public class MainActivity extends AppCompatActivity {
 	public final Runnable animations =new Runnable() {
 		@Override
 		public void run() {
-			// Log.d("hoge","hoge");
+			 Log.d("run","------------------");
+			if(decision()==1){
+				endflag=true;
+				Log.d("OUT!","OUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUTOUT");
+			}
+			Log.d("run","------------------");
 
 			if(!endflag) {
 				//    Log.d("cnt", String.valueOf(cnt));
@@ -217,10 +234,10 @@ public class MainActivity extends AppCompatActivity {
 
 				if(bflag==0) {
 					if (aflag == 0) {
-						Log.d("MainLoopIn", "this is Mainloop!");
-						Log.d("MainCnt", String.valueOf(cnt));
+						//Log.d("MainLoopIn", "this is Mainloop!");
+						//Log.d("MainCnt", String.valueOf(cnt));
 						if (spinners[cnt].getSelectedItem() == list_data[1]) {  //move process
-							Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
+							//Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
 
 							if ((playerimg.getRotation() / 90) % 4 == 0) {
 								playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
@@ -234,12 +251,12 @@ public class MainActivity extends AppCompatActivity {
 						} else if (spinners[cnt].getSelectedItem() == list_data[2]) {//Right process
 
 							playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
-							Log.d("Right", String.valueOf(playerimg.getRotation()));
+						//	Log.d("Right", String.valueOf(playerimg.getRotation()));
 
 						} else if (spinners[cnt].getSelectedItem() == list_data[3]) {//Left process
 
 							playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
-							Log.d("Left", String.valueOf(playerimg.getRotation()));
+						//	Log.d("Left", String.valueOf(playerimg.getRotation()));
 
 						} else if (spinners[cnt].getSelectedItem() == list_data[4]) {//go to A process
 							aflag = Integer.parseInt((String) A_spinners[0].getSelectedItem());
@@ -255,21 +272,22 @@ public class MainActivity extends AppCompatActivity {
 						}
 
 						if (++cnt < spinnerid.length) {
+
 							handler.postDelayed(animations, waittime);
 						} else {
 							if (!endflag) {
-								Log.d("end", String.valueOf(cnt));
+								//Log.d("end", String.valueOf(cnt));
 								endflag = true;
 								handler.postDelayed(animations, waittime);
 							}
 						}
 						//Main Process END
 					} else if (aflag > 0) {
-						Log.d("this is Aloop!", String.valueOf(aflag));
-						Log.d("this is Acnt!", String.valueOf(acnt));
+						//Log.d("this is Aloop!", String.valueOf(aflag));
+						//Log.d("this is Acnt!", String.valueOf(acnt));
 
 						if (A_spinners[acnt].getSelectedItem() == lista_data[1]) {  //move process
-							Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
+							//Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
 
 							if ((playerimg.getRotation() / 90) % 4 == 0) {
 								playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
@@ -280,15 +298,16 @@ public class MainActivity extends AppCompatActivity {
 							} else if ((playerimg.getRotation() / 90) % 4 == 3 || (playerimg.getRotation() / 90) % 4 == -1) {
 								playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
 							}
+
 						} else if (A_spinners[acnt].getSelectedItem() == lista_data[2]) {//Right process
 
 							playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
-							Log.d("Right", String.valueOf(playerimg.getRotation()));
+							//Log.d("Right", String.valueOf(playerimg.getRotation()));
 
 						} else if (A_spinners[acnt].getSelectedItem() == lista_data[3]) {//Left process
 
 							playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
-							Log.d("Left", String.valueOf(playerimg.getRotation()));
+						//	Log.d("Left", String.valueOf(playerimg.getRotation()));
 
 						} else if (A_spinners[acnt].getSelectedItem() == lista_data[4]) {//go to B process
 							bflag = Integer.parseInt((String) B_spinners[0].getSelectedItem());
@@ -300,23 +319,24 @@ public class MainActivity extends AppCompatActivity {
 							}
 						}
 						if (++acnt < A_spinners.length) {
-							Log.d("ALoopcnt", String.valueOf(acnt));
+							//Log.d("ALoopcnt", String.valueOf(acnt));
+
 							handler.postDelayed(animations, waittime);
 						} else {
 							aflag--;
 							acnt = 1;
-							Log.d("ALoopEed!", String.valueOf(aflag));
+							//Log.d("ALoopEed!", String.valueOf(aflag));
 							handler.postDelayed(animations, 0);
 						}
 
 
 					}//A_loop_End
 				}else if(bflag>0){//b_loop_End
-					Log.d("this is Bloop!", String.valueOf(bflag));
-					Log.d("this is Bcnt!", String.valueOf(bcnt));
+					//Log.d("this is Bloop!", String.valueOf(bflag));
+					//Log.d("this is Bcnt!", String.valueOf(bcnt));
 
 					if (B_spinners[bcnt].getSelectedItem() == listb_data[1]) {  //move process
-						Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
+						//Log.d("goF", String.valueOf(playerimg.getRotation() / 90));
 
 						if ((playerimg.getRotation() / 90) % 4 == 0) {
 							playerimg.animate().y(playerimg.getY() - fscales).setDuration(movetime);
@@ -327,15 +347,16 @@ public class MainActivity extends AppCompatActivity {
 						} else if ((playerimg.getRotation() / 90) % 4 == 3 || (playerimg.getRotation() / 90) % 4 == -1) {
 							playerimg.animate().x(playerimg.getX() - fscales).setDuration(movetime);
 						}
+
 					} else if (B_spinners[bcnt].getSelectedItem() == listb_data[2]) {//Right process
 
 						playerimg.animate().rotation(playerimg.getRotation() + 90).setDuration(movetime);
-						Log.d("Right", String.valueOf(playerimg.getRotation()));
+						//Log.d("Right", String.valueOf(playerimg.getRotation()));
 
 					} else if (B_spinners[bcnt].getSelectedItem() == listb_data[3]) {//Left process
 
 						playerimg.animate().rotation(playerimg.getRotation() - 90).setDuration(movetime);
-						Log.d("Left", String.valueOf(playerimg.getRotation()));
+						//Log.d("Left", String.valueOf(playerimg.getRotation()));
 
 					}
 					if (bcnt < B_spinnerid.length - 1) {
@@ -345,12 +366,14 @@ public class MainActivity extends AppCompatActivity {
 						}
 					}
 					if (++bcnt < B_spinners.length) {
-						Log.d("BLoopcnt", String.valueOf(bcnt));
+						//Log.d("BLoopcnt", String.valueOf(bcnt));
+
 						handler.postDelayed(animations, waittime);
 					} else {
+
 						bflag--;
 						bcnt = 1;
-						Log.d("BLoopEed!", String.valueOf(bflag));
+						//Log.d("BLoopEed!", String.valueOf(bflag));
 						handler.postDelayed(animations, 0);
 					}
 				}//B_Loop_End
@@ -373,14 +396,24 @@ public class MainActivity extends AppCompatActivity {
 
 
 			}else{
+				Log.d("Endstatus","----------------------");
+				/////////////////decision();
 				playerimg.animate().x(playerlotate.player_x).y(playerlotate.player_y).rotation(0).setDuration(50);
 				endflag=false;runflag=false;
 				cnt =0;
+				Log.d("End","----------------------------");
 			}
 
 
 		}
 	};
+	private int decision(){
+		int decix = (int)((playerimg.getX()-lmrg)/fscales)+1;
+		int deciy = (int)((playerimg.getY()-tmrg)/fscales)+1;
+		Log.d("fielddata",String.valueOf(fielddatas[decix][deciy]));
+		Log.d(String.valueOf(decix),String.valueOf(deciy));
+		return fielddatas[decix][deciy];
+	}
 }
 //}
 class Playerlotate{
