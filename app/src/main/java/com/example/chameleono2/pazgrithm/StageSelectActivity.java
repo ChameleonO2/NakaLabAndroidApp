@@ -18,7 +18,7 @@ import java.io.StringReader;
  */
 
 public class StageSelectActivity extends AppCompatActivity {
-    protected static final int[] stagedata = {R.id.st1,R.id.st2,R.id.st3};
+    protected static final int[] stagedata = {R.id.st1,R.id.st2,R.id.st3,R.id.st4,R.id.st5};
     Button[] stageselected = new Button[stagedata.length];
     int stageid;
     @Override
@@ -52,6 +52,22 @@ public class StageSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(getBaseContext(),"3",Toast.LENGTH_SHORT).show();
                 stageid=2;
+                movegames();
+            }
+        });
+        stageselected[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getBaseContext(),"3",Toast.LENGTH_SHORT).show();
+                stageid=3;
+                movegames();
+            }
+        });
+        stageselected[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getBaseContext(),"3",Toast.LENGTH_SHORT).show();
+                stageid=4;
                 movegames();
             }
         });

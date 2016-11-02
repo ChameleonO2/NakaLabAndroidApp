@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected static final int[] spinnerid = {R.id.command1, R.id.command2, R.id.command3, R.id.command4, R.id.command5, R.id.command6, R.id.command7, R.id.command8, R.id.command9, R.id.command10, R.id.command11, R.id.command12};
     protected static final int[] A_spinnerid = {R.id.A_times, R.id.Acommand1, R.id.Acommand2, R.id.Acommand3, R.id.Acommand4, R.id.Acommand5, R.id.Acommand6, R.id.Acommand7, R.id.Acommand8, R.id.Acommand9};
     protected static final int[] B_spinnerid = {R.id.B_times, R.id.Bcommand1, R.id.Bcommand2, R.id.Bcommand3, R.id.Bcommand4, R.id.Bcommand5, R.id.Bcommand6, R.id.Bcommand7, R.id.Bcommand8, R.id.Bcommand9};
-    protected static final int[] stageid = {R.raw.stage1, R.raw.stage2, R.raw.stage};
+    protected static final int[] stageid = {R.raw.stage1, R.raw.stage2, R.raw.stage,R.raw.stage3,R.raw.stage4};
     protected Spinner[] spinners = new Spinner[spinnerid.length];
     protected Spinner[] A_spinners = new Spinner[A_spinnerid.length];
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
@@ -185,13 +185,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Load goolimg ant set
-        goolimg.setImageResource(goolid[0]);
-        GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
-        goolimg.setLayoutParams(GameFieldParamg);
-        GameFieldParamg.leftMargin = gool.player_x;
-        GameFieldParamg.topMargin = gool.player_y;
-        goolimg.setLayoutParams(GameFieldParamg);
-        GameField.addView(goolimg);
+        if(getdata!=3) {
+            goolimg.setImageResource(goolid[0]);
+            GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
+            goolimg.setLayoutParams(GameFieldParamg);
+            GameFieldParamg.leftMargin = gool.player_x;
+            GameFieldParamg.topMargin = gool.player_y;
+            goolimg.setLayoutParams(GameFieldParamg);
+            GameField.addView(goolimg);
+        }
 
         //Load playerimage and set
         playerimg.setImageResource(characterid[0]);
