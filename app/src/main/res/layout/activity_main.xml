@@ -147,7 +147,8 @@
                                 android:text="TextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/test_text" />
+                                android:id="@+id/test_text"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
                         </LinearLayout>
                     </LinearLayout>
 

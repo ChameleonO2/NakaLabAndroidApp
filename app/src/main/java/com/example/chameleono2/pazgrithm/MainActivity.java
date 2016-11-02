@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         fielddatas = new int[fieldlength + 2][fieldlength + 2];
         //int[] testf =new int[82];
         Button startbutton = (Button) findViewById(R.id.button_s);
+        Button resetbutton = (Button) findViewById(R.id.button2);
         Resources res = this.getResources();
         InputStream is = null;
         BufferedReader br = null;
@@ -78,11 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         getdata = intent.getIntExtra("STAGEDATA", 0);
-        Toast.makeText(getBaseContext(), String.valueOf(getdata), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(), String.valueOf(getdata), Toast.LENGTH_SHORT).show();
 
 
         setTitle("Puzgorithm");
         startbutton.setText("スタート");
+        resetbutton.setText("リセット");
         //read stage file
         //
         try {
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(this, "読み込み失敗", Toast.LENGTH_SHORT).show();
         }
-        testhoge = String.valueOf(fielddatas[1][1]);
-        testext.setText(testhoge);
+
+        testext.setText("おわり");
 
 
         for (int i = 0; i < 7; i++) {
@@ -201,14 +203,36 @@ public class MainActivity extends AppCompatActivity {
         GameField.addView(playerimg);
 
 
+        //resetbutton
+        resetbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+
+
+
+
         //buttonsettings
         startbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // tmp=(String)A_spinners[0].getSelectedItem();
-
                 if (!runflag) {
+                    for(int i = 0;i<spinners.length;i++){
+                        spinners[i].setEnabled(false);
+                    }
+                    for(int i = 0;i<A_spinners.length;i++){
+                        A_spinners[i].setEnabled(false);
+                    }
+                    for(int i = 0;i<B_spinners.length;i++){
+                        B_spinners[i].setEnabled(false);
+                    }
+
                     runflag = true;
                     Log.d("Start", "----------------------------");
                     //Log.d("length", String.valueOf(spinnerid.length));
@@ -402,12 +426,22 @@ public class MainActivity extends AppCompatActivity {
                 if (decision() == 3) {
                     Toast.makeText(getBaseContext(), "ごーる！　おめでとう", Toast.LENGTH_SHORT).show();
                 }
+                for(int i = 0;i<spinners.length;i++){
+                    spinners[i].setEnabled(true);
+                }
+                for(int i = 0;i<A_spinners.length;i++){
+                    A_spinners[i].setEnabled(true);
+                }
+                for(int i = 0;i<B_spinners.length;i++){
+                    B_spinners[i].setEnabled(true);
+                }
                 playerimg.animate().x(playerlotate.player_x).y(playerlotate.player_y).rotation(0).setDuration(50);
                 endflag = false;
                 runflag = false;
                 cnt = 0;
                 acnt = 1;
                 bcnt = 1;
+
                 Log.d("End", "----------------------------");
             }
 
