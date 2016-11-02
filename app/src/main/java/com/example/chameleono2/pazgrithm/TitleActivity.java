@@ -1,5 +1,6 @@
 package com.example.chameleono2.pazgrithm;
 
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -20,6 +21,7 @@ public class TitleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (bgm == null) {
             bgm = MediaPlayer.create(getApplicationContext(), R.raw.iti);
             bgm.setLooping(true);
