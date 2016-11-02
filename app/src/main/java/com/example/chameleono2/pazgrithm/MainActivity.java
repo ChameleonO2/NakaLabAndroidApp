@@ -1,24 +1,15 @@
 package com.example.chameleono2.pazgrithm;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
-import android.media.Image;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.support.v4.app.ShareCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.view.InputDeviceCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -26,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.CharArrayReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected Spinner[] spinners = new Spinner[spinnerid.length];
     protected Spinner[] A_spinners = new Spinner[A_spinnerid.length];
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
-    protected final int[] characterid = {R.drawable.character3};
+    protected final int[] characterid = {R.drawable.character4};
     protected final int[] goolid = {R.drawable.gool2};
 
     public Playerlotate playerlotate = new Playerlotate();
