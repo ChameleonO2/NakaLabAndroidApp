@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.CharArrayReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected Spinner[] spinners = new Spinner[spinnerid.length];
     protected Spinner[] A_spinners = new Spinner[A_spinnerid.length];
     protected Spinner[] B_spinners = new Spinner[B_spinnerid.length];
+    protected final int[] characterid = {R.drawable.character3};
+    protected final int[] goolid = {R.drawable.gool2};
 
     public Playerlotate playerlotate = new Playerlotate();
     public Playerlotate gool = new Playerlotate();
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Load goolimg ant set
-        goolimg.setImageResource(R.drawable.gool);
+        goolimg.setImageResource(goolid[0]);
         GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
         goolimg.setLayoutParams(GameFieldParamg);
         GameFieldParamg.leftMargin = gool.player_x;
@@ -200,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         GameField.addView(goolimg);
 
         //Load playerimage and set
-        playerimg.setImageResource(R.drawable.character2);
+        playerimg.setImageResource(characterid[0]);
         GameFieldParamg = new RelativeLayout.LayoutParams(fscales, fscales);
         playerimg.setLayoutParams(GameFieldParamg);
         GameFieldParamg.leftMargin = playerlotate.player_x;
